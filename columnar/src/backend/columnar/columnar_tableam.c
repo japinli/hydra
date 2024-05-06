@@ -198,8 +198,6 @@ columnar_beginscan(Relation relation, Snapshot snapshot,
 				   ParallelTableScanDesc parallel_scan,
 				   uint32 flags)
 {
-	previousCacheEnabledState = columnar_enable_page_cache;
-
 	int natts = relation->rd_att->natts;
 
 	/* attr_needed represents 0-indexed attribute numbers */

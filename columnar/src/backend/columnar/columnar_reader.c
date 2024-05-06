@@ -1914,17 +1914,12 @@ DeserializeChunkData(StripeBuffers *stripeBuffers, uint64 chunkIndex,
 			ColumnChunkBuffers *chunkBuffers =
 				columnBuffers->chunkBuffersArray[chunkIndex];
 			bool shouldCache = columnar_enable_page_cache == true && chunkBuffers->valueCompressionType != COMPRESSION_NONE;
-
-			if (shouldCache)
-			{
-				ColumnarMarkChunkGroupInUse(state->relation->rd_id, stripeId, chunkIndex);
-			}
-
 			/* decompress and deserialize current chunk's data */
 			StringInfo valueBuffer = NULL;
 			
 			if (shouldCache)
 			{
+				ColumnarMarkChunkGroupInUse(state->relation->rd_id, stripeId, chunkIndex);
 				valueBuffer = ColumnarRetrieveCache(state->relation->rd_id, stripeId, chunkIndex, columnIndex);
 			}
 
